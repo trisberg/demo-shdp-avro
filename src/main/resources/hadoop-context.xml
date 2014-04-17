@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:hdp="http://www.springframework.org/schema/hadoop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <hdp:configuration id="hadoopConfiguration">
+        fs.defaultFS=hdfs://localhost:8020
+    </hdp:configuration>
+
+    <bean id="datasetFactory" class="org.springframework.data.hadoop.store.dataset.DatasetRepositoryFactory">
+        <property name="conf" ref="hadoopConfiguration"/>
+        <property name="basePath" value="/tmp/hello"/>
+    </bean>
+    <bean id="datasetOperations" class="org.springframework.data.hadoop.store.dataset.DatasetTemplate">
+        <property name="datasetRepositoryFactory" ref="datasetFactory"/>
+    </bean>
+
+</beans>
